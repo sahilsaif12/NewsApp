@@ -1,4 +1,45 @@
+*{
+  margin: 0;
+  padding: 0;
+}
 .App {
   text-align: center;
 }
 
+.navbar{
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+.card-text,
+.card-title,
+.text-muted{
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.card-text{
+  -webkit-line-clamp: 4;
+}
+.card-title{
+  -webkit-line-clamp: 3;
+}
+.text-muted{
+  -webkit-line-clamp: 1;
+}
+
+
+.toggle-button{
+  border: none;
+  transform: scale(.8);
+  padding: 5px;
+  border-radius: 50%;
+  background: transparent;
+}
+.darkMode svg{
+  fill: black;
+}
+.lightMode svg{
+  fill: whitesmoke;
+}
