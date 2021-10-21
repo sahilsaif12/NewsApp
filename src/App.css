@@ -14,7 +14,7 @@
 }
 .card-text,
 .card-title,
-.text-muted{
+.author{
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
@@ -25,7 +25,7 @@
 .card-title{
   -webkit-line-clamp: 3;
 }
-.text-muted{
+.author{
   -webkit-line-clamp: 1;
 }
 
