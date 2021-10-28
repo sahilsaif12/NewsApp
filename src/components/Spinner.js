@@ -3,8 +3,9 @@ import './spinner.css'
 export class spinner extends Component {
     render() {
         return (
-            
-                <div className="kart-loader">
+
+
+                <div className="kart-loader" style={{height:"100px"}}>
                     <div className="sheath">
                         <div className="segment"></div>
                     </div>
@@ -41,7 +42,7 @@ export class spinner extends Component {
                     <div className="sheath">
                         <div className="segment"></div>
                     </div>
-                </div>
+            </div>
         )
     }
 }

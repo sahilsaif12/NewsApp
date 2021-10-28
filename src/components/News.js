@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Newsitem from './Newsitem'
 import Spinner from './Spinner'
+import InfiniteScroll from "react-infinite-scroll-component";
+
 export class News extends Component {
     static defaultProps = {
         country: 'in',
@@ -23,65 +25,91 @@ export class News extends Component {
         }
     }
 
-    async componentDidMount() {
-        let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=87aa4da3834a4ea682552d2d82db8db2`
+updateNews=async()=>{
+    this.props.setProgress(20)
+    let url = `https://gnews.io/api/v4/top-headlines?country=${this.props.country}&token=${this.props.apiKey}${this.props.category?"&topic="+this.props.category:""}&lang=${this.props.lang}${this.props.keyword?"&q="+this.props.keyword:""}`
+        this.props.setProgress(30)
         this.setState({ loading: true })
         let data = await fetch(url)
+        this.props.setProgress(50)
         let parsedData = await data.json()
         console.log(parsedData)
+        this.props.setProgress(70)
         this.setState({
             articles: parsedData.articles,
             totalResults: parsedData.totalResults,
             loading: false
         })
+        this.props.setProgress(100)
+}
+
+    async componentDidMount() {
+        // this.props.setProgress(20)
+        // console.log(this.props.apiKey);
+        // let url = `https://gnews.io/api/v4/top-headlines?country=${this.props.country}&token=${this.props.apiKey}&topic=${this.props.category}&lang=${this.props.lang}`
+        // this.props.setProgress(30)
+        // this.setState({ loading: true })
+        // let data = await fetch(url)
+        // this.props.setProgress(50)
+        // let parsedData = await data.json()
+        // console.log(parsedData)
+        // this.props.setProgress(70)
+        // this.setState({
+        //     articles: parsedData.articles,
+        //     totalResults: parsedData.totalResults,
+        //     loading: false
+        // })
+        // this.props.setProgress(100)
+        this.updateNews()
+        // document.title = `${this.props.category.charAt(0).toUpperCase() + this.props.category.slice(1)} - News fever`
     }
 
-    fetchingManually = async (page) => {
-        let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&apiKey=87aa4da3834a4ea682552d2d82db8db2&category=${this.props.category}&page=${page}`
-        this.setState({ loading: true })
+    updateNews_In_InfiniteScroll = async (page) => {
+        let url = `https://gnews.io/api/v4/top-headlines?country=${this.props.country}&token=${this.props.apiKey}${this.props.category?"&topic="+this.props.category:""}&lang=${this.props.lang}${this.props.keyword?"&q="+this.props.keyword:""}&page=${page}`
         let data = await fetch(url)
         let parsedData = await data.json()
         console.log(parsedData)
         this.setState({
-            articles: parsedData.articles,
+            articles: this.state.articles.concat(parsedData.articles),
             page: page,
             totalResults: parsedData.totalResults,
-            loading: false
-
+            // loading: false
         })
     }
-    prevBtn = async () => {
+    // prevBtn = async () => {
 
-        this.fetchingManually(this.state.page - 1)
+    //     this.updateNews_In_InfiniteScroll(this.state.page - 1)
+    // }
+
+    fetchMoreData = async () => {
+        this.updateNews_In_InfiniteScroll(this.state.page + 1)
     }
-    nextBtn = async () => {
-
-        this.fetchingManually(this.state.page + 1)
-    }
-
+    
     render() {
         return (
-            <div className="container py-3 ">
-                <div className="container mt-3">
-                    <form className="d-flex justify-content-center">
-                        <input className="form-control me-2 " style={this.props.mode === 'dark' ?{background:"#D4ECDD",width: "40%"}:{backgroundColor:"#fff",width: "40%"}} type="search" placeholder="Search any keyword related news..." aria-label="Search"  />
-                        <button className="btn btn-outline-success" type="submit">Search</button>
-                    </form>
-                </div>
-                <h2 className={`text-center text-${this.props.mode === 'light' ? 'dark' : 'light'} my-2`}>Todays top headlines</h2>
-                <div className="row d-flex  justify-content-between">
-                {this.state.loading && <Spinner/>}
-                {!this.state.loading && this.state.articles.map((element)=>{
-                    return <div className="col-md-3 my-3">
-                        <Newsitem mode={this.props.mode} key={element.url} title={element.title} desc={element.description} url={element.url} imgUrl={element.urlToImage} source={element.source.name} date={element.publishedAt} author={element.author} />
+
+            <div className=" py-3 ">
+                    <h2 className={`text-center text-${this.props.mode === 'light' ? 'dark' : 'light'} my-2`}>Todays  headlines</h2>
+                <InfiniteScroll
+                    dataLength={this.state.articles.length}
+                    next={this.fetchMoreData}
+                    hasMore={this.state.articles.length !== this.state.totalResults}
+                    loader={<Spinner />}
+                    style={{height: 'auto', overflow: 'hidden'}}
+                >
+                <div className="container"  >
+
+                
+                    <div className="row d-flex  justify-content-between">
+                        {/* {this.state.loading && <Spinner />} */}
+                        {!this.state.loading && this.state.articles.map((element) => {
+                            return <div className="col-md-3 my-3" >
+                                <Newsitem mode={this.props.mode} key={element.url} title={element.title} desc={element.description} url={element.url} image={element.image} source={element.source.name} date={element.publishedAt}  />
+                            </div>
+                        })}
                     </div>
-                })}
-                    
-                </div>
-                <div className="d-flex justify-content-evenly " >
-                <button disabled={this.state.page<=1} type="button"  className={`btn btn-${this.props.mode==="light"?"dark":"light"}`} onClick={this.prevBtn}>&#8592; Prev</button>
-                <button disabled={this.state.page>=Math.ceil(this.state.totalResults/20)} type="button" className={`btn btn-${this.props.mode==="light"?"dark":"light"}`} onClick={this.nextBtn}>Next &#8594;</button>
-                </div>
+                    </div>
+                </InfiniteScroll>
             </div>
         )
     }
