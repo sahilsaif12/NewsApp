@@ -1,10 +1,8 @@
-import React, { Component } from 'react'
+import React from 'react'
 import './spinner.css'
-export class spinner extends Component {
-    render() {
+
+export default function Spinner() {
         return (
-
-
                 <div className="kart-loader" style={{height:"100px"}}>
                     <div className="sheath">
                         <div className="segment"></div>
@@ -45,6 +43,4 @@ export class spinner extends Component {
             </div>
         )
     }
-}
 
-export default spinner

@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Link } from "react-router-dom";
-export default class Navbar extends Component {
 
 
-    render() {
-        let modeIcon = this.props.mode === 'dark' ? <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-sun" width="44" height="44" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#ffffff" fill="none" strokeLinecap="round" strokeLinejoin="round">
+export default function Navbar(props){
+
+        let modeIcon = props.mode === 'dark' ? <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-sun" width="44" height="44" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#ffffff" fill="none" strokeLinecap="round" strokeLinejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
             <circle cx="12" cy="12" r="4" />
             <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
@@ -21,7 +21,7 @@ export default class Navbar extends Component {
         }
         return (
             <>
-                <nav className={`navbar navbar-expand-lg navbar-${this.props.mode} `} style={this.props.mode==='light'?navBg:navBgDark}>
+                <nav className={`navbar navbar-expand-lg navbar-${props.mode} `} style={props.mode==='light'?navBg:navBgDark}>
                     <div className="container-fluid">
                         <Link className="navbar-brand" to="/">News Fever</Link>
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,10 +60,10 @@ export default class Navbar extends Component {
                             </ul>
 
                         </div>
-                        <button onClick={this.props.click} className={`toggle-button ${this.props.mode === 'light' ? 'darkMode' : 'lightMode'}`} >{modeIcon}</button>
+                        <button onClick={props.click} className={`toggle-button ${props.mode === 'light' ? 'darkMode' : 'lightMode'}`} >{modeIcon}</button>
                     </div>
                 </nav>
             </>
         )
     }
-}
+

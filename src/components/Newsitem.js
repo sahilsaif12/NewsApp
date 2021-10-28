@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
-export class Newsitem extends Component {
+import React from 'react'
 
-    render() {
-        let { title, desc, url, image, source, mode } = this.props
+
+export default function Newsitem(props) {
+
+        let { title, desc, url, image, source, mode } = props
         let textColor = mode === 'light' ? 'dark' : 'light'
         const navBg = {
             backgroundColor: '#EEEEEE',
@@ -21,13 +22,11 @@ export class Newsitem extends Component {
                     <div className="card-body d-flex flex-column align-items-center justify-content-between  ">
                         <h4 className="card-title">{title}</h4>
                         <p className="card-text">{desc}</p>
-                        <p className="card-text"><small className="author" style={mode==="light"?{color:"#777"}:{color:"#b8adad"}}> {Math.round((new Date().getTime() - new Date(this.props.date).getTime()) / 1000 / 3600)} hours ago</small></p>
+                        <p className="card-text"><small className="author" style={mode==="light"?{color:"#777"}:{color:"#b8adad"}}> {Math.round((new Date().getTime() - new Date(props.date).getTime()) / 1000 / 3600)} hours ago</small></p>
                         <a href={url} rel="noreferrer" target="_blank" className={`btn btn-outline-${mode==="light"?"primary":"light"}`}>Read more</a>
                     </div>
                 </div>
             </div>
         )
     }
-}
 
-export default Newsitem

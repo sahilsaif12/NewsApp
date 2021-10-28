@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import Navbar from './components/Navbar'
 import News from './components/News'
 import './App.css'
@@ -11,74 +11,68 @@ import {
 import LoadingBar from 'react-top-loading-bar'
 // require('dotenv').config()
 
-export default class App extends Component {
+export default function App(){
 
-  apiKey = process.env.REACT_APP_API_KEY 
-  constructor() {
-    super()
-    this.state = {
-      mode: "dark",
-      progress: 0,
-      Keyword:null
-    }
-  }
+  const apiKey = process.env.REACT_APP_API_KEY 
+  const [mode, setMode] = useState("dark")
+  const [progress, setProgress] = useState(0)
+  const [Keyword, setKeyword] = useState(null)
 
-  toggleMode = () => {
-    if (this.state.mode === 'light') {
-      this.setState({ mode: "dark" })
+  const toggleMode = () => {
+    if ( mode === 'light') {
+       setMode("dark")
     }
     else {
-      this.setState({ mode: "light" })
+       setMode("light")
     }
   }
 
-  navBg = {
+  const navBg = {
     backgroundColor: '#ededed',
     minHeight: "100vh"
   }
-  navBgDark = {
+  const navBgDark = {
     backgroundColor: '#152D35',
     minHeight: "100vh"
 
   }
 
-  setProgress = (progress) => {
-    this.setState({ progress: progress })
+  const setProgressFun = (progress) => {
+     setProgress(progress)
   }
   
-  searchKeyword=(event)=>{
-    this.setState({Keyword:event.target.value})
+  const searchKeyword=(event)=>{
+     setKeyword(event.target.value)
   }
 
-  render() {
     return (
       <>
-        <div style={this.state.mode === "dark" ? this.navBgDark : this.navBg}>
+        <div style={ mode === "dark" ? navBgDark : navBg}>
           <Router>
-            <Navbar click={this.toggleMode} mode={this.state.mode} />
+            <Navbar click={ toggleMode} mode={ mode} />
             <LoadingBar
               color='#CE1F6A'
-              progress={this.state.progress}
+              progress={ progress}
               height={4}
             />
             <div className="container mt-3">
                     <form className="d-flex justify-content-center">
-                        <input className="form-control me-2 search-field" onChange={this.searchKeyword} style={this.props.mode === 'dark' ? { background: "#D4ECDD", width: "40%" } : { backgroundColor: "#fff", width: "40%" }} type="text" placeholder="Search any keyword related news..." aria-label="Search" />
+                        <input className="form-control me-2 search-field" onChange={ searchKeyword} style={ mode === 'dark' ? { background: "#D4ECDD", width: "40%" } : { backgroundColor: "#fff", width: "40%" }} type="text" placeholder="Search any keyword of news..." aria-label="Search" />
                         <Link className="btn btn-outline-success"  to="/q">Search</Link>
                     </form>
                 </div>
             <Switch>
             
-              <Route exact path="/q"><News apiKey={this.apiKey} setProgress={this.setProgress} keyword={this.state.Keyword} mode={this.state.mode} country="in" category={null} lang="en" key='searchKeyword' /></Route>
-              <Route exact path="/"><News apiKey={this.apiKey} setProgress={this.setProgress} mode={this.state.mode} country="in" category='breaking-news' lang="en" key='breaking-news' /></Route>
-              <Route exact path="/world"><News apiKey={this.apiKey} setProgress={this.setProgress} mode={this.state.mode} country="in" category='world' lang="en" key='world' /></Route>
-              <Route exact path="/nation"><News apiKey={this.apiKey} setProgress={this.setProgress} mode={this.state.mode} country="in" category='nation' lang="en" key='nation' /></Route>
-              <Route exact path="/business"><News apiKey={this.apiKey} setProgress={this.setProgress} mode={this.state.mode} country="in" category='business' lang="en" key='business' /></Route>
-              <Route exact path="/entertainment"><News apiKey={this.apiKey} setProgress={this.setProgress} mode={this.state.mode} country="in" category='entertainment' lang="en" key='entertainment' /></Route>
-              <Route exact path="/health"><News apiKey={this.apiKey} setProgress={this.setProgress} mode={this.state.mode} country="in" category='health' lang="en" key="health" /></Route>
-              <Route exact path="/science"><News apiKey={this.apiKey} setProgress={this.setProgress} mode={this.state.mode} cou ntry="in" category='science' lang="en" key="science" /></Route>
-              <Route exact path="/sports"><News apiKey={this.apiKey} setProgress={this.setProgress} mode={this.state.mode} country="in" category='sports' lang="en" key="sports" /></Route>
-              <Route exact path="/technology"><News apiKey={this.apiKey} setProgress={this.setProgress} Keyword={null} mode={this.state.mode} country="in" category='technology' lang="en" key="technology" /></Route>
+              <Route exact path="/q"><News apiKey={ apiKey} setProgress= { setProgressFun} keyword={ Keyword} mode={ mode} country="in" category={null} lang="en" key='searchKeyword' /></Route>
+              <Route exact path="/"><News apiKey={ apiKey} setProgress= { setProgressFun} mode={ mode} country="in" category='breaking-news' lang="en" key='breaking-news' /></Route>
+              <Route exact path="/world"><News apiKey={ apiKey} setProgress= { setProgressFun} mode={ mode} country="in" category='world' lang="en" key='world' /></Route>
+              <Route exact path="/nation"><News apiKey={ apiKey} setProgress= { setProgressFun} mode={ mode} country="in" category='nation' lang="en" key='nation' /></Route>
+              <Route exact path="/business"><News apiKey={ apiKey} setProgress= { setProgressFun} mode={ mode} country="in" category='business' lang="en" key='business' /></Route>
+              <Route exact path="/entertainment"><News apiKey={ apiKey} setProgress= { setProgressFun} mode={ mode} country="in" category='entertainment' lang="en" key='entertainment' /></Route>
+              <Route exact path="/health"><News apiKey={ apiKey} setProgress= { setProgressFun} mode={ mode} country="in" category='health' lang="en" key="health" /></Route>
+              <Route exact path="/science"><News apiKey={ apiKey} setProgress= { setProgressFun} mode={ mode} country="in" category='science' lang="en" key="science" /></Route>
+              <Route exact path="/sports"><News apiKey={ apiKey} setProgress= { setProgressFun} mode={ mode} country="in" category='sports' lang="en" key="sports" /></Route>
+              <Route exact path="/technology"><News apiKey={ apiKey} setProgress= { setProgressFun} Keyword={null} mode={ mode} country="in" category='technology' lang="en" key="technology" /></Route>
             </Switch>
           </Router>
         </div>
@@ -86,5 +80,6 @@ export default class App extends Component {
       </>
     )
   }
-}
+
+
 
