@@ -88,7 +88,3 @@ export default class App extends Component {
   }
 }
 
-// 87aa4da3834a4ea682552d2d82db8db2
-
-// 3fe21346255e0af2e1ce2264747f94cc
-
