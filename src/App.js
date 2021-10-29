@@ -13,7 +13,9 @@ import LoadingBar from 'react-top-loading-bar'
 
 export default function App(){
 
-  const apiKey = process.env.REACT_APP_API_KEY 
+  // const apiKey = process.env.REACT_APP_API_KEY 
+  const apiKey = "3fe21346255e0af2e1ce2264747f94cc" 
+
   const [mode, setMode] = useState("dark")
   const [progress, setProgress] = useState(0)
   const [Keyword, setKeyword] = useState()
