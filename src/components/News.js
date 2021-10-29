@@ -14,7 +14,7 @@ export default function News(props) {
 
 const updateNews=async()=>{
     props.setProgress(20)
-        let url = `https://gnews.io/api/v4/top-headlines?country=${props.country}&token=${props.apiKey}${props.category?"&topic="+props.category:""}&lang=${props.lang}${props.keyword?"&q="+props.keyword:""}`
+        let url = `https://gnews.io/api/v4/top-headlines?country=${props.country}&token=${props.apiKey}${!props.category?"&topic="+props.category:""}&lang=${props.lang}${props.keyword?"&q="+props.keyword:""}`
         props.setProgress(30)
         setLoading(true)
         let data =await fetch(url)
@@ -66,6 +66,7 @@ const updateNews=async()=>{
 
                 
                     <div className="row d-flex  justify-content-between">
+                        {loading && <Spinner />}
                         {!loading && articles.map((element) => {
                             return <div className="col-md-3 my-3" >
                                 <Newsitem mode={props.mode} key={element.url} title={element.title} desc={element.description} url={element.url} image={element.image} source={element.source.name} date={element.publishedAt}  />
