@@ -23,9 +23,13 @@ export default function App(){
   const toggleMode = () => {
     if ( mode === 'light') {
        setMode("dark")
+       document.documentElement.style.setProperty("--scrollbarBG", '#152D35')
+       document.documentElement.style.setProperty("--thumbBG","#345B63")
     }
     else {
        setMode("light")
+       document.documentElement.style.setProperty("--scrollbarBG", '#ededed')
+       document.documentElement.style.setProperty("--thumbBG","#363636")
     }
   }
 
