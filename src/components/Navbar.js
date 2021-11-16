@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from "react-router-dom";
+import { Link ,useLocation} from "react-router-dom";
 
 
 export default function Navbar(props) {
@@ -19,7 +19,7 @@ export default function Navbar(props) {
     const navBgDark = {
         backgroundColor: '#112031'
     }
-
+    let location=useLocation()
     return (
         <>
             <nav className={`navbar navbar-expand-lg navbar-${props.mode} `} style={props.mode === 'light' ? navBg : navBgDark}>
@@ -31,32 +31,32 @@ export default function Navbar(props) {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0 d-flex justify-content-evenly w-75"  >
                             <li className="nav-item">
-                                <Link className="nav-link active" aria-current="page" to="/">Top articles</Link>
+                                <Link className={`nav-link ${location.pathname==='/'?"active":""}`} aria-current="page" to="/">Top articles</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link active" aria-current="page" to="/world">World</Link>
+                                <Link className={`nav-link ${location.pathname==='/world'?"active":""}`} aria-current="page" to="/world">World</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link active" aria-current="page" to="/nation">Nation</Link>
+                                <Link className={`nav-link ${location.pathname==='/nation'?"active":""}`} aria-current="page" to="/nation">Nation</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link active" to="/business">Business </Link>
+                                <Link className={`nav-link ${location.pathname==='/business'?"active":""}`} to="/business">Business </Link>
                             </li>
 
                             <li className="nav-item">
-                                <Link className="nav-link active" to="/entertainment">Entertainment </Link>
+                                <Link className={`nav-link ${location.pathname==='/entertainment'?"active":""}`} to="/entertainment">Entertainment </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link active" to="/health">Health  </Link>
+                                <Link className={`nav-link ${location.pathname==='/health'?"active":""}`} to="/health">Health  </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link active" to="/science">Science   </Link>
+                                <Link className={`nav-link ${location.pathname==='/science'?"active":""}`} to="/science">Science   </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link active" to="/sports">Sports   </Link>
+                                <Link className={`nav-link ${location.pathname==='/sports'?"active":""}`} to="/sports">Sports   </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link active" to="/technology">Technology   </Link>
+                                <Link className={`nav-link ${location.pathname==='/technology'?"active":""}`} to="/technology">Technology   </Link>
                             </li>
                         </ul>
                         <div >

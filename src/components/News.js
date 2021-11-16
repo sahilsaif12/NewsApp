@@ -11,14 +11,14 @@ export default function News(props) {
     const [loading, setLoading] = useState(true)
     const [page, setPage] = useState(1)
     const [totalResults, setTotalResults] = useState(0)
-
+    
 const updateNews=async()=>{
     props.setProgress(20)
         let url = `https://gnews.io/api/v4/top-headlines?country=${props.country}&token=${props.apiKey}${props.category?"&topic="+props.category:""}&lang=${props.lang}${props.keyword?"&q="+props.keyword:""}`
-        console.log(url);
         props.setProgress(30)
         setLoading(true)
         let data =await fetch(url)
+        // props.statusCode(data.status)
         props.setProgress(50)
         let parsedData =await data.json()
         console.log(parsedData)
@@ -40,15 +40,19 @@ const updateNews=async()=>{
 
     const updateNews_In_InfiniteScroll = async () => {
         let url = `https://gnews.io/api/v4/top-headlines?country=${props.country}&token=${props.apiKey}${props.category?"&topic="+props.category:""}&lang=${props.lang}${props.keyword?"&q="+props.keyword:""}&page=${page}`
+        setPage(page+1)
+        console.log(url);
         let data = await fetch(url)
         let parsedData = await data.json()
-        console.log(parsedData)
+        console.log(page,parsedData)
         setArticles(articles.concat(parsedData.articles)) 
+        console.log(articles);
         setTotalResults( parsedData.totalResults)
     }
 
     const fetchMoreData = async () => {
-        setPage(page+1)
+        // setPage(page+1)
+        // console.log(page);
         updateNews_In_InfiniteScroll()
     }
     

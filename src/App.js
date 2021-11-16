@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Navbar from './components/Navbar'
 import News from './components/News'
+// import ErrorPage from './components/ErrorPage'
 import './App.css'
 import {
   BrowserRouter as Router,
@@ -19,7 +20,8 @@ export default function App(){
   const [mode, setMode] = useState("dark")
   const [progress, setProgress] = useState(0)
   const [Keyword, setKeyword] = useState()
-
+  // const [statusCode, setStatusCode] = useState(200)
+  
   const toggleMode = () => {
     if ( mode === 'light') {
        setMode("dark")
@@ -28,7 +30,7 @@ export default function App(){
     }
     else {
        setMode("light")
-       document.documentElement.style.setProperty("--scrollbarBG", '#ededed')
+        document.documentElement.style.setProperty("--scrollbarBG", '#ededed')
        document.documentElement.style.setProperty("--thumbBG","#363636")
     }
   }
@@ -47,10 +49,14 @@ export default function App(){
       setProgress(progress)
   }
 
-  
+  // if (statusCode==404 || statusCode==403) {
+  //         return <ErrorPage status={String(statusCode).charAt(2)}/>
+  //     }
+  // { (statusCode===404 || statusCode===403) && <ErrorPage status={String(statusCode).charAt(2)}/>}
+
     return (
       <>
-        <div style={ mode === "dark" ? navBgDark : navBg}>
+         <div style={ mode === "dark" ? navBgDark : navBg}>
           <Router>
             <Navbar click={ toggleMode} mode={ mode} />
             <LoadingBar
@@ -67,7 +73,7 @@ export default function App(){
             <Switch>
             
               <Route exact path={"/"+Keyword}><News apiKey={ apiKey} setProgress= { setProgressFun} keyword={ Keyword} mode={ mode} country="in" category={null} lang="en" key='searchKeyword' /></Route>
-              <Route exact path="/"><News apiKey={ apiKey} setProgress= { setProgressFun} mode={ mode} country="in" category='breaking-news' lang="en" key='breaking-news' /></Route>
+              <Route exact path="/"><News  apiKey={ apiKey}  setProgress= { setProgressFun} mode={ mode} country="in" category='breaking-news' lang="en" key='breaking-news' /></Route>
               <Route exact path="/world"><News apiKey={ apiKey} setProgress= { setProgressFun} mode={ mode} country="in" category='world' lang="en" key='world' /></Route>
               <Route exact path="/nation"><News apiKey={ apiKey} setProgress= { setProgressFun} mode={ mode} country="in" category='nation' lang="en" key='nation' /></Route>
               <Route exact path="/business"><News apiKey={ apiKey} setProgress= { setProgressFun} mode={ mode} country="in" category='business' lang="en" key='business' /></Route>
